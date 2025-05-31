@@ -14,7 +14,13 @@ Calcula parámetros de control (Kp, Ti, Td, β) con métodos:
   • Rovira et al.     (PI, PID – Servo – IAE, ITAE)
 
 Luego muestra **una sola DataTable** interactiva con Textual,
-ordenada primero por **Variante**, luego por **Método**, **Modo** y **Ms/Criterio** (numérico).
+ordenada inicialmente por **Variante**, luego por **Método**, **Modo** y **Ms/Criterio** (numérico).
+
+Permite reordenar la tabla haciendo clic en el encabezado de las columnas:
+  • Variante
+  • Método
+  • Modo
+  • Ms/Criterio
 
 Uso (por terminal):
     python3 graficTuning.py K T a tau0
@@ -100,14 +106,12 @@ def get_usort_coeffs():
     return {
         'regulador': {
             'PI': {
-                # Robustez Ms = 2.0
                 2.0: {
                     'a0': 0.265,  'a1': 0.603,  'a2': -0.971,
                     'b0': -1.382, 'b1':  2.837, 'b2':  0.211,
                     'c0': 0.0,    'c1':  0.0,   'c2':  0.0,
                     'd0': 0.372,  'd1':  1.205, 'd2':  0.608
                 },
-                # Robustez Ms = 1.6
                 1.6: {
                     'a0': 0.175,  'a1': 0.466,  'a2': -0.911,
                     'b0': -1.382, 'b1':  2.837, 'b2':  0.211,
@@ -116,14 +120,12 @@ def get_usort_coeffs():
                 }
             },
             'PID': {
-                # Robustez Ms = 2.0  (valores EXACTOS para PID Regulador)
                 2.0: {
                     'a0': 0.235,  'a1': 0.840,  'a2': -0.919,
                     'b0': -0.198, 'b1': 1.291,  'b2':  0.485,
                     'c0':  0.004, 'c1': 0.389,  'c2':  0.869,
                     'd0':  0.248, 'd1': 0.571,  'd2':  0.362
                 },
-                # Robustez Ms = 1.6  (valores EXACTOS para PID Regulador)
                 1.6: {
                     'a0': 0.435,  'a1': 0.551,  'a2': -1.123,
                     'b0': 0.095,  'b1': 1.165,  'b2':  0.517,
@@ -134,14 +136,12 @@ def get_usort_coeffs():
         },
         'servo': {
             'PI': {
-                # Robustez Ms = 1.8
                 1.8: {
                     'a0':  0.243, 'a1':  0.509, 'a2': -1.063,
                     'b0': 14.650, 'b1':  8.450, 'b2':  0.000, 'b3': 15.740,
                     'c0':  0.0,   'c1':  0.0,   'c2':  0.0,
                     'd0':  0.372, 'd1':  1.205, 'd2':  0.608
                 },
-                # Robustez Ms = 1.6
                 1.6: {
                     'a0':  0.209, 'a1':  0.417, 'a2': -1.064,
                     'b0':  0.107, 'b1':  1.164, 'b2':  0.377, 'b3':  0.066,
@@ -150,14 +150,12 @@ def get_usort_coeffs():
                 }
             },
             'PID': {
-                # Robustez Ms = 1.8 (valores EXACTOS para PID Servo)
                 1.8: {
                     'a0':  0.377,  'a1':  0.727,  'a2': -1.041,
                     'b0':  1.687,  'b1': 339.2,  'b2': 39.86, 'b3': 1299.0,
                     'c0': -0.016,  'c1':  0.333,  'c2':  0.815,
                     'd0':  0.248,  'd1':  0.571,  'd2':  0.362
                 },
-                # Robustez Ms = 1.6 (valores EXACTOS para PID Servo)
                 1.6: {
                     'a0':  0.502,  'a1':  0.518,  'a2': -1.194,
                     'b0':  0.135,  'b1':  1.355,  'b2':  0.333, 'b3':  0.403,
@@ -182,7 +180,6 @@ def get_mendez_coeffs():
 
     Cada clave 'a' ∈ {0.0, 0.25, 0.50, 0.75, 1.0}.
     """
-    # Regulador IAE
     iae_reg = {
         0.0:  {'a0': 0.124, 'a1': 0.886, 'a2': -1.005,
                'b0': -2.422, 'b1': 3.855, 'b2': 0.780},
@@ -195,8 +192,6 @@ def get_mendez_coeffs():
         1.0:  {'a0': 0.184, 'a1': 0.994, 'a2': -0.999,
                'b0':  0.194, 'b1': 2.358, 'b2': -0.020}
     }
-
-    # Regulador ITAE
     itae_reg = {
         0.0:  {'a0': 0.114, 'a1': 0.758, 'a2': -1.012,
                'b0': -1.997, 'b1': 3.273, 'b2': 0.763},
@@ -209,8 +204,6 @@ def get_mendez_coeffs():
         1.0:  {'a0': 0.225, 'a1': 0.718, 'a2': -0.978,
                'b0':  0.239, 'b1': 1.938, 'b2': -0.011}
     }
-
-    # Servo IAE
     iae_ser = {
         0.0:  {'a0': 0.265,  'a1': 0.509, 'a2': -1.042,
                'b0': 0.433,  'b1': 0.922, 'b2': -0.017},
@@ -223,8 +216,6 @@ def get_mendez_coeffs():
         1.0:  {'a0': 0.035,  'a1': 0.825, 'a2': -0.618,
                'b0': 0.406,  'b1': 1.903, 'b2': -0.134}
     }
-
-    # Servo ITAE
     itae_ser = {
         0.0:  {'a0': 0.209,  'a1': 0.441, 'a2': -1.054,
                'b0': 0.326,  'b1': 0.882, 'b2': -0.035},
@@ -237,7 +228,6 @@ def get_mendez_coeffs():
         1.0:  {'a0': -0.338, 'a1': 0.997, 'a2': -0.360,
                'b0': 0.291,  'b1': 1.605, 'b2': -0.072}
     }
-
     return iae_reg, itae_reg, iae_ser, itae_ser
 
 
@@ -282,7 +272,6 @@ def get_rovira_coeffs():
 #    (Méndez & Rímolo, uSORT1, uSORT2, López, Rovira)
 # ============================
 
-# --- Méndez & Rímolo ---
 def tune_mendez_reg_IAE(a, tau0, K, T, coeffs):
     a0, a1, a2 = coeffs['a0'], coeffs['a1'], coeffs['a2']
     b0, b1, b2 = coeffs['b0'], coeffs['b1'], coeffs['b2']
@@ -293,7 +282,6 @@ def tune_mendez_reg_IAE(a, tau0, K, T, coeffs):
     Td = 0.0
     return Kp, Ti, Td, "-"
 
-
 def tune_mendez_reg_ITAE(a, tau0, K, T, coeffs):
     a0, a1, a2 = coeffs['a0'], coeffs['a1'], coeffs['a2']
     b0, b1, b2 = coeffs['b0'], coeffs['b1'], coeffs['b2']
@@ -303,7 +291,6 @@ def tune_mendez_reg_ITAE(a, tau0, K, T, coeffs):
     Ti = tau_i * T
     Td = 0.0
     return Kp, Ti, Td, "-"
-
 
 def tune_mendez_ser_IAE(a, tau0, K, T, coeffs):
     a0, a1, a2 = coeffs['a0'], coeffs['a1'], coeffs['a2']
@@ -317,7 +304,6 @@ def tune_mendez_ser_IAE(a, tau0, K, T, coeffs):
     Td = 0.0
     return Kp, Ti, Td, "-"
 
-
 def tune_mendez_ser_ITAE(a, tau0, K, T, coeffs):
     a0, a1, a2 = coeffs['a0'], coeffs['a1'], coeffs['a2']
     b0, b1, b2 = coeffs['b0'], coeffs['b1'], coeffs['b2']
@@ -330,8 +316,6 @@ def tune_mendez_ser_ITAE(a, tau0, K, T, coeffs):
     Td = 0.0
     return Kp, Ti, Td, "-"
 
-
-# --- uSORT1 / uSORT2 ---
 def tune_usort1_reg(a, tau0, K, T, coeffs):
     a0, a1, a2 = coeffs['a0'], coeffs['a1'], coeffs['a2']
     b0, b1, b2 = coeffs['b0'], coeffs['b1'], coeffs['b2']
@@ -343,7 +327,6 @@ def tune_usort1_reg(a, tau0, K, T, coeffs):
     tau_d = c0 + c1 * (tau0 ** c2)
     Td = tau_d * T
     return Kp, Ti, Td, "-"
-
 
 def tune_usort1_servo(a, tau0, K, T, coeffs):
     a0, a1, a2 = coeffs['a0'], coeffs['a1'], coeffs['a2']
@@ -359,7 +342,6 @@ def tune_usort1_servo(a, tau0, K, T, coeffs):
     Td = tau_d * T
     return Kp, Ti, Td, "-"
 
-
 def tune_usort2_reg(a, tau0, K, T, coeffs):
     a0, a1, a2 = coeffs['a0'], coeffs['a1'], coeffs['a2']
     b0, b1, b2 = coeffs['b0'], coeffs['b1'], coeffs['b2']
@@ -373,7 +355,6 @@ def tune_usort2_reg(a, tau0, K, T, coeffs):
     Td = tau_d * T
     beta = d0 + d1 * (tau0 ** d2)
     return Kp, Ti, Td, beta
-
 
 def tune_usort2_servo(a, tau0, K, T, coeffs):
     a0, a1, a2 = coeffs['a0'], coeffs['a1'], coeffs['a2']
@@ -391,15 +372,12 @@ def tune_usort2_servo(a, tau0, K, T, coeffs):
     beta = d0 + d1 * (tau0 ** d2)
     return Kp, Ti, Td, beta
 
-
-# --- López et al. ---
 def tune_lopez_P(tau0, K, params):
     a = params['a']
     b = params['b']
     kpk = a * (tau0 ** b)
     Kp = kpk / K
     return Kp, 0.0, 0.0, "-"
-
 
 def tune_lopez_PI(tau0, K, T, params):
     a = params['a']
@@ -411,7 +389,6 @@ def tune_lopez_PI(tau0, K, T, params):
     tau_i = c * (tau0 ** d)
     Ti = tau_i * T
     return Kp, Ti, 0.0, "-"
-
 
 def tune_lopez_PID(tau0, K, T, params):
     a = params['a']
@@ -428,8 +405,6 @@ def tune_lopez_PID(tau0, K, T, params):
     Td = tau_d * T
     return Kp, Ti, Td, "-"
 
-
-# --- Rovira et al. ---
 def tune_rovira_PI(tau0, K, T, params):
     a = params['a']
     b = params['b']
@@ -441,7 +416,6 @@ def tune_rovira_PI(tau0, K, T, params):
     tau_i = (1.0 / denom) if denom != 0 else 0.0
     Ti = tau_i * T
     return Kp, Ti, 0.0, "-"
-
 
 def tune_rovira_PID(tau0, K, T, params):
     a = params['a']
@@ -605,7 +579,7 @@ def construir_y_ordenar_resultados(
                 'β'           : betar
             })
 
-    # 5) Ordenamos TODO en una sola lista
+    # 5) Ordenamos TODO en una sola lista (orden inicial)
     def ms_a_float(valor: str) -> float:
         try:
             return float(valor)
@@ -614,10 +588,10 @@ def construir_y_ordenar_resultados(
 
     all_results.sort(
         key=lambda x: (
-            x['Variante'],
-            x['Método'],
-            x['Modo'],
-            ms_a_float(x['Ms/Criterio'])
+            x['Variante'],                # 1° Por Variante
+            x['Método'],                  # 2° Por Método
+            x['Modo'],                    # 3° Por Modo
+            ms_a_float(x['Ms/Criterio'])  # 4° Por Ms/Criterio numérico
         )
     )
 
@@ -629,7 +603,8 @@ def construir_y_ordenar_resultados(
 # ============================
 class TuningApp(App):
     """
-    Aplicación Textual para visualizar resultados de sintonización en una tabla interactiva.
+    Aplicación Textual para visualizar resultados de sintonización en
+    una tabla interactiva. Permite ordenar haciendo clic en encabezado.
     """
 
     # BINDINGS: 'q' o 'Q' cierra la app
@@ -645,34 +620,67 @@ class TuningApp(App):
         self.a = a
         self.tau0 = tau0
 
+        # Guardamos el listado completo de resultados para poder reordenar
+        self.all_results: List[Dict[str, Any]] = []
+
+        # Estado de orden actual: (campo, ascendente:boolean)
+        # Por defecto, ya ordenamos por Variante asc, Método asc, Modo asc, Ms asc
+        self.current_sort: Tuple[str, bool] = ("Variante", True)
+
     def compose(self) -> ComposeResult:
         # 1) Cabecera con reloj
         yield Header(show_clock=True)
 
-        # 2) Contenedor para la única tabla
+        # 2) Contenedor para la tabla
         with Container():
-            # Tabla completa (PI + PID mezclados)
+            # Creamos la DataTable completa
             self.tabla = DataTable()
-            self.tabla.add_columns(
-                "Variante", "Método", "Modo", "Ms/Criterio", "Kp", "Ti", "Td", "β"
-            )
+            self.tabla.cursor_type = "row"
+            # Definimos las columnas con sus "keys" (column_key) para referirnos en eventos
+            # Ya no usamos 'sortable=True'; Textual envía DataTable.HeaderSelected al clicar cualquier header
+            self.tabla.add_column("Variante",     key="Variante")
+            self.tabla.add_column("Método",       key="Método")
+            self.tabla.add_column("Modo",         key="Modo")
+            self.tabla.add_column("Ms/Criterio",  key="Ms/Criterio")
+            self.tabla.add_column("Kp",           key="Kp")
+            self.tabla.add_column("Ti",           key="Ti")
+            self.tabla.add_column("Td",           key="Td")
+            self.tabla.add_column("β",            key="β")
+
             yield self.tabla
 
-        # 3) Pie de página
+        # 3) Pie de página (Footer)
         yield Footer()
 
     async def on_mount(self) -> None:
         """
-        Después de montar la UI, obtener y mostrar los datos en la tabla.
+        Después de montar la UI, obtener datos, mostrarlos y preparar eventos.
         """
-        # a) Obtener lista ordenada
-        all_results = construir_y_ordenar_resultados(
+        # a) Obtener lista ordenada (inicialmente por Variante→Método→Modo→Ms)
+        self.all_results = construir_y_ordenar_resultados(
             self.K, self.T, self.a, self.tau0
         )
 
-        # b) Llenar la tabla
-        for r in all_results:
-            # Convertimos cada campo a string formateado
+        # b) Llenar la tabla con filas iniciales
+        self._popular_tabla()
+
+        # c) Ajustar ancho automático de columnas
+        self.tabla.auto_width = True
+
+        # d) Poner foco inicial en la tabla para poder navegar con flechas
+        self.set_focus(self.tabla)
+
+    def _popular_tabla(self) -> None:
+        """
+        Llena la DataTable 'self.tabla' con todas las filas de 'self.all_results'.
+        Borra contenido previo y agrega de nuevo.
+        """
+        # Limpiamos todas las filas usando clear()
+        # Según la documentación de Textual, DataTable.clear() remueve todas las filas
+        self.tabla.clear()
+
+        # Por cada r en all_results, agregamos fila formateada
+        for r in self.all_results:
             variante = r["Variante"]
             metodo   = r["Método"]
             modo     = r["Modo"]
@@ -684,11 +692,45 @@ class TuningApp(App):
 
             self.tabla.add_row(variante, metodo, modo, ms, kp, ti, td, beta)
 
-        # c) Ajustar ancho automático de columnas
-        self.tabla.auto_width = True
+    async def on_data_table_header_selected(self, event: DataTable.HeaderSelected) -> None:
+        """
+        Controlador de evento que se dispara al hacer clic en un encabezado de la tabla.
+        'event.column_key' indica la clave de la columna clicada (por ejemplo, "Variante").
+        Reordena self.all_results según esa columna, alternando ascendente/descendente.
+        """
+        columna = event.column_key  # Será uno de: "Variante", "Método", "Modo", "Ms/Criterio", "Kp", "Ti", "Td", "β"
 
-        # d) Poner foco inicial en la tabla para navegar con flechas/PgUp/PgDn
-        self.set_focus(self.tabla)
+        # Solo permitimos ordenar por las columnas solicitadas: Variante, Método, Modo, Ms/Criterio
+        if columna not in {"Variante", "Método", "Modo", "Ms/Criterio"}:
+            return
+
+        # Determinar si ya estamos ordenados por esta columna en modo ascendente
+        asc_actual = (self.current_sort[0] == columna and self.current_sort[1] is True)
+
+        # Ahora el nuevo orden será descendente si estaba en ascendente, o ascendente si no
+        nuevo_asc = not asc_actual
+
+        # Guardamos el nuevo estado de orden
+        self.current_sort = (columna, nuevo_asc)
+
+        # Función clave para Ms/Criterio: convertir a float o inf para comparaciones
+        def ms_a_float(valor: str) -> float:
+            try:
+                return float(valor)
+            except ValueError:
+                return float("inf")
+
+        # Elegimos la función de clave según la columna seleccionada
+        if columna == "Ms/Criterio":
+            keyfunc = lambda x: ms_a_float(x["Ms/Criterio"])
+        else:
+            keyfunc = lambda x: x[columna]
+
+        # Ordenamos la lista de resultados in-place
+        self.all_results.sort(key=keyfunc, reverse=not nuevo_asc)
+
+        # Repoblamos la tabla con el nuevo orden
+        self._popular_tabla()
 
 
 # ============================
